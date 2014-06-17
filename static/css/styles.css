@@ -136,7 +136,7 @@ body {
 }
 .navbar-fixed-top .navbar-inner,
 .navbar-inner {
-  background: #8bbf36;
+  background: #1A1A1A;
   filter: none;
   border: none;
   -webkit-box-shadow: none;
@@ -163,16 +163,19 @@ body {
 }
 .navbar .nav > li > a:hover,
 .navbar .nav > li > a:focus {
-  background-color: #a2d058;
-  color: #FFF;
+  background-color: #1A1A1A;
+  color: #7DB903;
+}
+.navbar .nav > li > a {
+  transition: all 0.3s ease-in-out 0s;
 }
 .navbar .nav > .active > a,
 .navbar .nav > .active > a:hover,
 .navbar .nav > .active > a:focus {
-  background-color: #add56c;
+  background-color: #1A1A1A;
   -webkit-box-shadow: none;
   box-shadow: none;
-  color: #FFF;
+  color: #7DB903;
 }
 .nav .dropdown-toggle .caret,
 .nav .dropdown-toggle:hover .caret {
@@ -241,7 +244,7 @@ body {
   background-color: #f7f7f7;
   top: 0;
   bottom: 0;
-  width: 9999px;
+  /*width: 9999px;*/
 }
 .banner:before {
   right: 100%;
@@ -271,7 +274,7 @@ section.grey:after {
   position: absolute;
   top: -1px;
   bottom: -1px;
-  width: 9999px;
+  /*width: 9999px;*/
 }
 section.grey:before {
   right: 100%;
@@ -655,5 +658,5 @@ body > footer li > a {
 body > footer li > a:hover {
     color: rgb(205, 205, 205);
 }
-
+.analizo-text-align{text-align:justify;}
 

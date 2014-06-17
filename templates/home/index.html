@@ -1,19 +1,21 @@
 {% extends "base.html" %}
-{% import "applications/_helpers.html" as helper %}
-{% import "account/_helpers.html" as account_helper %}
 
 {% block content %}
       <div class="banner">
         <div class="row">
           <div class="span4">
-              <h1>{{ brand }}</h1>
+              <h1><a title="Analizo.info&#58; Convi&eacute;rtete en analista de informaci&oacute;n por el cambio social" href="http://analizo.info/" target="_blank">Analizo.info</a></h1>
               {% include ['custom/front_page_text.html', 'home/_pybossa_text.html'] ignore missing %}
           </div>
           <div class="span8">
             <ul class="featured">
                 {% for f in featured %}
-                <li><a href={{ url_for('app.details', short_name=f.short_name)}}>
-                    {{ helper.render_app_thumbnail(f, upload_method) }}
+                <li><a href="{{ url_for('app.details', short_name=f.short_name)}}">
+                    {% if f.info.thumbnail %}
+                    <img src="{{f.info.thumbnail}}">
+                    {% else %}
+                    <img src="{{url_for('static', filename='img/placeholder.dark.png')}}">
+                    {% endif %}
                     <h3>{{f.name}}</h3>
                     <span class="label label-info">{{ _('Info') }}</span>
                     </a>
@@ -27,6 +29,7 @@
         </div>
       </div>
 
+      {% if current_user.is_authenticated() == False %}
       <section class="grey get-started">
         <div class="row">
           <div class="span4">
@@ -34,18 +37,19 @@
             <p>{{ _('It\'s really simple to start contributing.') }}</p>
           </div>
           <div class="span8">
-              <a href="{{url_for('app.index')}}" class="btn btn-info btn-large"><i class="icon-ok-sign"></i>{{ _(' Start Contributing') }}</a> <a href="{{url_for('app.new')}}" class="btn btn-primary btn-large"><i class="icon-plus-sign"></i> {{ _('Create a Project') }}</a>
+              <a href="{{ url_for('account.register') }}" class="btn btn-primary btn-large"><i class="icon-plus-sign"></i>{{ _(' Create a new account!') }}</a>
           </div>
       </section>
+      {% endif %}
       
       <section>
-        <h2><i class="icon-th"></i>{{ _('Most Active Projects') }}</h2>
+        <h2><i class="icon-th"></i>{{ _('Most Active Applications') }}</h2>
         <div class="row">
           {% for app in top_apps %}
           <div class="span3">
             <div class="app box">
                 {% if app.info.thumbnail %}
-                <a href="{{url_for('app.details', short_name=app.short_name)}}" class="image" style="background-image:url({{helper.render_url_thumbnail(app, upload_method)}})"></a>
+                <a href="{{url_for('app.details', short_name=app.short_name)}}" class="image" style="background-image:url({{app.info.thumbnail}})"></a>
                 {% else %}
                 <a href="{{url_for('app.details', short_name=app.short_name)}}" class="image" style="background-image:url({{url_for('static',filename='placeholder.png')}})"></a>
                 {% endif %}
@@ -59,9 +63,7 @@
           <div class="span3">
             <div class="app box">
                 <a href="#" class="image" style="background-image:url({{url_for('static',filename='img/placeholder.png')}})"></a>
-                <h3>{{ _('Your project') }}</h3>
-                <p>{{ _('could be here!') }}</p>
-                <p><a href="{{url_for('app.new')}}" class="btn btn-mini btn-primary">{{ _('Create a project') }}</a></p>
+                <h3>{{ _('Your application') }} {{ _('could be here!') }}</h3>
             </div>
           </div>
           {% endfor %}
@@ -74,12 +76,12 @@
         <ul class="users">
             {% for user in top_users %}
           <li>
-          <a href="{{url_for('account.profile', name=user.name)}}" data-content="
+          <a href="{{url_for('account.public_profile', name=user.name)}}" data-content="
                 <strong>{{_('Joined')}}:</strong> {{user.created[0:10]}} 
                 <br/>
                 <strong>{{_('Submitted Tasks')}}:</strong> {{user.task_runs}}
                 " rel="popover" data-original-title="<strong>{{user.fullname}}</strong>">
-                {{ account_helper.render_user_thumbnail(user, upload_method, style="height:90px; width:90px;") }}
+                <img src="{{user.email_addr|gravatar(size=90)}}">
            </a>
            <span class="label label-success">{{user.task_runs}}</span> <small>{{_('Tasks')}}</small>
           </li>
